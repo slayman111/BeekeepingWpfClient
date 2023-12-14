@@ -1,9 +1,66 @@
-﻿<Window x:Class="BeekeepingWpfClient.View.AuthorizationWindow"
+﻿<view:BaseWindow x:Class="BeekeepingWpfClient.View.AuthorizationWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:view="clr-namespace:BeekeepingWpfClient.View"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:behaviors="clr-namespace:BeekeepingWpfClient.Core.Behaviors"
+    xmlns:viewModel="clr-namespace:BeekeepingWpfClient.ViewModel"
     mc:Ignorable="d"
-    Title="AuthorizationWindow" Height="450" Width="800">
-    <Grid />
-</Window>
+    Title="AuthorizationWindow" Height="450" Width="400">
+
+    <Window.DataContext>
+        <viewModel:AuthorizationViewModel />
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+            Text="Авторизация"
+            TextAlignment="Center"
+            VerticalAlignment="Center"
+            Foreground="White"
+            Background="{StaticResource PrimaryHueLightBrush}" />
+
+        <StackPanel Grid.Row="1" Margin="20" VerticalAlignment="Center">
+            <TextBlock
+                Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                Margin="0,20,0,20"
+                TextAlignment="Center"
+                Text="Введите логин и пароль" />
+
+            <TextBox
+                FontSize="18"
+                materialDesign:HintAssist.Hint="Логин"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                Text="{Binding Login}"
+                VerticalAlignment="Center" />
+
+            <PasswordBox
+                FontSize="18"
+                Margin="0,20,0,0"
+                materialDesign:HintAssist.Hint="Пароль"
+                Style="{StaticResource MaterialDesignFloatingHintRevealPasswordBox}"
+                materialDesign:TextFieldAssist.HasClearButton="False">
+                <b:Interaction.Behaviors>
+                    <behaviors:PasswordBehavior Password="{Binding Password, Mode=TwoWay}" />
+                </b:Interaction.Behaviors>
+            </PasswordBox>
+
+            <Button
+                HorizontalAlignment="Center" Margin="0,20,0,20"
+                Style="{StaticResource MaterialDesignFlatLightBgButton}"
+                Command="{Binding SignInCommand}"
+                Content="Войти" Width="180"
+                IsDefault="True" />
+        </StackPanel>
+    </Grid>
+
+</view:BaseWindow>
