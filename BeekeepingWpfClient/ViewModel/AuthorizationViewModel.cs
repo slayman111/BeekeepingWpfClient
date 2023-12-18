@@ -3,6 +3,7 @@ using BeekeepingWpfClient.Command;
 using BeekeepingWpfClient.Core;
 using BeekeepingWpfClient.Exception;
 using BeekeepingWpfClient.Model.Request;
+using BeekeepingWpfClient.View;
 
 namespace BeekeepingWpfClient.ViewModel;
 
@@ -30,6 +31,8 @@ public class AuthorizationViewModel : BaseViewModel
 
         var response = await httpService.LoginAsync(new LoginRequest(Login, Password));
 
-        MessageBoxService.Info(response.ToString());
+        AuthTokens.SetTokens(response.AccessToken, response.RefreshToken);
+
+        WindowManager.Open<DashboardWindow, AuthorizationWindow>();
     }
 }
