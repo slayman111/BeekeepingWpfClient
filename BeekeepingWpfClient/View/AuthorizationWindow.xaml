@@ -9,7 +9,7 @@
     xmlns:behaviors="clr-namespace:BeekeepingWpfClient.Core.Behaviors"
     xmlns:viewModel="clr-namespace:BeekeepingWpfClient.ViewModel"
     mc:Ignorable="d"
-    Title="AuthorizationWindow" Height="450" Width="400">
+    Height="450" Width="400">
 
     <Window.DataContext>
         <viewModel:AuthorizationViewModel />

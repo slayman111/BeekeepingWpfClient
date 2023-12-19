@@ -7,7 +7,7 @@
     xmlns:viewModel="clr-namespace:BeekeepingWpfClient.ViewModel"
     xmlns:converter="clr-namespace:BeekeepingWpfClient.Core.Converter"
     mc:Ignorable="d"
-    Title="DashboardWindow" Height="450" Width="800">
+    Height="450" Width="800">
 
     <Window.DataContext>
         <viewModel:DashboardViewModel />
@@ -29,7 +29,7 @@
 
             <Button
                 Style="{StaticResource MaterialDesignFlatLightBgButton}"
-                Command="{Binding OpenNewProductWindowCommand}"
+                Command="{Binding OpenProductWindowCommand}"
                 Content="Добавить товар" Width="180" Margin="0,0,25,0" />
 
             <Button
@@ -50,7 +50,7 @@
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="140" />
+                            <ColumnDefinition Width="180" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
@@ -61,10 +61,15 @@
                         <StackPanel Grid.Column="1">
                             <TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}"
                                 Text="{Binding Product.Name}" />
+
                             <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                                 Text="{Binding Product.Price, StringFormat=Цена за шт: {0} руб.}" />
+
                             <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                                Text="{Binding Amount, StringFormat=Кол-во: {0}}" />
+                                Text="{Binding Amount, StringFormat=Кол-во: {0} шт.}" />
+
+                            <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                Text="{Binding TotalPrice, StringFormat=Итого: {0} руб.}" />
 
                             <TextBlock>
                                 <TextBlock.Text>
@@ -78,7 +83,7 @@
                             <TextBlock>
                                 <TextBlock.Text>
                                     <MultiBinding
-                                        StringFormat="{}Статус заказа {0}, Создан: {1}, Дата доставки: {1}">
+                                        StringFormat="{}Статус заказа: {0}, Дата создания: {1}, Дата доставки: {1}">
                                         <Binding Path="FormattedStatus" />
                                         <Binding Path="FormattedDeliveryDate" />
                                         <Binding Path="FormattedDeliveryDate" />

@@ -12,7 +12,9 @@ public class ByteArrayToBitmapImageConverter : IValueConverter
     {
         if (value is null) return new BitmapImage();
 
-        using var ms = new MemoryStream((value as byte[])!);
+        var bytes = System.Convert.FromBase64String((value as string)!);
+
+        using var ms = new MemoryStream(bytes);
         var image = new BitmapImage();
         image.BeginInit();
         image.CacheOption = BitmapCacheOption.OnLoad;
@@ -25,7 +27,7 @@ public class ByteArrayToBitmapImageConverter : IValueConverter
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>
         ToByteArray((value as BitmapImage)!);
 
-    public static byte[]? ToByteArray(BitmapImage? image)
+    private static byte[]? ToByteArray(BitmapImage? image)
     {
         if (image is null) return null;
 
