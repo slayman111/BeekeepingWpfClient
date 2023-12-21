@@ -15,7 +15,7 @@ namespace BeekeepingWpfClient.ViewModel;
 
 public class ProductViewModel : BaseViewModel
 {
-    private HttpService _httpService;
+    private readonly HttpService _httpService;
     private string _name;
     private decimal _price;
     private GetAllProductTypeResponse _selectedGetAllProductType;
@@ -72,8 +72,7 @@ public class ProductViewModel : BaseViewModel
 
     private async void DeleteProduct(object id)
     {
-        if (MessageBox.Show("Вы уверены что хотите удалить товар?", "Удаление", MessageBoxButton.YesNo)
-            != MessageBoxResult.Yes) return;
+        if (!MessageBoxService.Delete("Вы уверены что хотите удалить товар?")) return;
 
         await _httpService.DeleteProductAsync((int)id);
         await LoadProductsAsync();

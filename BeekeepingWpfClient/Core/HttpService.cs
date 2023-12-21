@@ -6,7 +6,6 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using BeekeepingWpfClient.Exception;
@@ -47,13 +46,26 @@ public class HttpService : IDisposable
             response.Headers.GetValues("JWT-Refresh-Token").First());
     }
 
-    public async Task<bool> RegisterAsync(RegisterRequest registerRequest)
+    public async Task RegisterAsync(RegisterRequest registerRequest)
     {
         var response = await _httpClient.PostAsJsonAsync("/register", registerRequest);
 
         if (response.StatusCode != HttpStatusCode.OK) throw new BadRegistrationException();
+    }
 
-        return true;
+    public async Task<List<GetAllUsersResponse>?> GetAllUsersAsync()
+    {
+        var response = await _httpClient.GetAsync("/admin/user");
+
+        return JsonConvert.DeserializeObject<List<GetAllUsersResponse>>(
+            await response.Content.ReadAsStringAsync());
+    }
+
+    public async Task DeleteUserAsync(int id)
+    {
+        var response = await _httpClient.DeleteAsync($"/admin/user/{id}");
+
+        if (response.StatusCode != HttpStatusCode.OK) throw new CantDeleteUserException();
     }
 
     public async Task<List<GetAllRequestsResponse>?> GetRequestsAsync()
@@ -62,6 +74,13 @@ public class HttpService : IDisposable
 
         return JsonConvert.DeserializeObject<List<GetAllRequestsResponse>>(
             await response.Content.ReadAsStringAsync());
+    }
+
+    public async Task CreateRequestAsync(CreateRequestRequest createRequestRequest)
+    {
+        var response = await _httpClient.PostAsJsonAsync("/request", createRequestRequest);
+
+        if (response.StatusCode != HttpStatusCode.Created) throw new CantCreateRequestException();
     }
 
     public async Task<List<GetAllProductsResponse>?> GetProductsAsync()
@@ -105,8 +124,6 @@ public class HttpService : IDisposable
             await response.Content.ReadAsStringAsync());
     }
 
-    public void Dispose() => _httpClient.Dispose();
-
     private static byte[] ImageToByte(BitmapImage imageSource)
     {
         var encoder = new JpegBitmapEncoder();
@@ -116,4 +133,6 @@ public class HttpService : IDisposable
         encoder.Save(ms);
         return ms.ToArray();
     }
+
+    public void Dispose() => _httpClient.Dispose();
 }

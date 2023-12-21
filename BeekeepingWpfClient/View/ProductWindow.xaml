@@ -8,7 +8,7 @@
     xmlns:viewModel="clr-namespace:BeekeepingWpfClient.ViewModel"
     xmlns:converter="clr-namespace:BeekeepingWpfClient.Core.Converter"
     mc:Ignorable="d"
-    Height="650" Width="800">
+    Height="650" Width="1000">
 
     <Window.DataContext>
         <viewModel:ProductViewModel />
@@ -21,7 +21,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="350" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
@@ -55,7 +55,7 @@
                                 Text="{Binding Name}" />
 
                             <TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                                Text="{Binding Price}" />
+                                Text="{Binding Price, StringFormat={}{0} руб.}" />
 
                             <Button
                                 Margin="0,10,0,0"

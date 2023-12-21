@@ -6,8 +6,9 @@
     xmlns:local="clr-namespace:BeekeepingWpfClient.View"
     xmlns:viewModel="clr-namespace:BeekeepingWpfClient.ViewModel"
     xmlns:converter="clr-namespace:BeekeepingWpfClient.Core.Converter"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     mc:Ignorable="d"
-    Height="450" Width="800">
+    Height="550" Width="900">
 
     <Window.DataContext>
         <viewModel:DashboardViewModel />
@@ -23,8 +24,12 @@
             <RowDefinition Height="20" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="280" />
+        </Grid.ColumnDefinitions>
 
-        <StackPanel Orientation="Horizontal" Margin="25,0, 0,0">
+        <StackPanel Orientation="Horizontal" Margin="25,0, 0,0" Grid.ColumnSpan="2">
             <TextBlock Text="Панель администратора" FontSize="20" VerticalAlignment="Center" Margin="0,0,25,0" />
 
             <Button
@@ -83,9 +88,9 @@
                             <TextBlock>
                                 <TextBlock.Text>
                                     <MultiBinding
-                                        StringFormat="{}Статус заказа: {0}, Дата создания: {1}, Дата доставки: {1}">
+                                        StringFormat="{}Статус заказа: {0}, Дата создания: {1}, Дата доставки: {2}">
                                         <Binding Path="FormattedStatus" />
-                                        <Binding Path="FormattedDeliveryDate" />
+                                        <Binding Path="FormattedCreatedDate" />
                                         <Binding Path="FormattedDeliveryDate" />
                                     </MultiBinding>
                                 </TextBlock.Text>
@@ -105,6 +110,39 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+        <StackPanel Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center">
+            <ComboBox
+                FontSize="18"
+                SelectedItem="{Binding SelectedProduct}"
+                ItemsSource="{Binding Products}"
+                DisplayMemberPath="Name"
+                Style="{StaticResource MaterialDesignFilledComboBox}"
+                materialDesign:HintAssist.Hint="Продукт" />
+
+            <TextBox
+                FontSize="18"
+                materialDesign:HintAssist.Hint="Количество"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                Margin="0,10,0,0"
+                Text="{Binding Amount}"
+                VerticalAlignment="Center" />
+
+            <DatePicker
+                FontSize="18"
+                materialDesign:HintAssist.Hint="Дата доставки"
+                Margin="0,10,0,0"
+                SelectedDate="{Binding SelectedDate}"
+                Style="{StaticResource MaterialDesignFilledDatePicker}" />
+
+            <Button
+                Style="{StaticResource MaterialDesignFlatLightBgButton}"
+                Margin="0,10,0,0"
+                Command="{Binding AddRequestCommand}"
+                Content="Добавить"
+                Width="180"
+                IsDefault="True" />
+        </StackPanel>
     </Grid>
 
 </local:BaseWindow>
