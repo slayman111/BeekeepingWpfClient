@@ -85,7 +85,7 @@ public class HttpService : IDisposable
 
     public async Task<List<GetAllProductsResponse>?> GetProductsAsync()
     {
-        var response = await _httpClient.GetAsync("/admin/product");
+        var response = await _httpClient.GetAsync("/product");
 
         return JsonConvert.DeserializeObject<List<GetAllProductsResponse>>(
             await response.Content.ReadAsStringAsync());
